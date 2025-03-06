@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: cc4d
+  atasource:
+    username: sa
+    password: password
+    url: jdbc:h2:mem:zeday;NON_KEYWORDS=user
+
+  jpa:
+    show-sql: false
+    hibernate:
+    ddl-auto: create
+
+    properties:
+    hibernate:
+      dialect: org.hibernate.dialect.H2Dialect
+
+server:
+  port: 8000
+  error:
+    include-message: always
+    include-binding-errors: always
