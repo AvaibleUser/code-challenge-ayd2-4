@@ -1,6 +1,7 @@
 package org.cunoc.cc4.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.cunoc.cc4.dto.AddDriverDto;
 import org.cunoc.cc4.dto.DriverDto;
@@ -30,6 +31,11 @@ public class DriverController {
     @GetMapping
     public List<DriverDto> getAll() {
         return driverService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<DriverDto> get(@PathVariable @Positive long id) {
+        return driverService.findOne(id);
     }
 
     @PostMapping
