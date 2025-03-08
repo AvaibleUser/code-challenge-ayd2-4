@@ -5,7 +5,7 @@ import java.util.List;
 import org.cunoc.cc4.dto.AddDriverDto;
 import org.cunoc.cc4.dto.DriverDto;
 import org.cunoc.cc4.dto.PutDriverDto;
-import org.cunoc.cc4.service.DriverService;
+import org.cunoc.cc4.service.IDriverService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DriverController {
 
-    private DriverService driverService;
+    private IDriverService driverService;
 
     @GetMapping
     public List<DriverDto> getAll() {
@@ -40,6 +40,6 @@ public class DriverController {
 
     @PutMapping("/{id}")
     public void update(@PathVariable @Positive long id, @RequestBody @Valid PutDriverDto inDriver) {
-        
+
     }
 }

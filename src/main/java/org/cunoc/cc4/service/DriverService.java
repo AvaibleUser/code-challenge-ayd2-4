@@ -13,15 +13,12 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class DriverService {
+public class DriverService implements IDriverService {
 
     private DriverRepository driverRepository;
 
     public List<DriverDto> findAll() {
-        return driverRepository.findAll()
-                .stream()
-                .map(d -> new DriverDto(d.getId(), d.getName(), d.getAge()))
-                .toList();
+        return driverRepository.findAllDrivers();
     }
 
     public void add(AddDriverDto newDriver) {
