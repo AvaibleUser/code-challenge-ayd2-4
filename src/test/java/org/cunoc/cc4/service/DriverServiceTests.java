@@ -93,16 +93,15 @@ public class DriverServiceTests {
         // given
         String name = "Random";
         int age = 50;
-        DriverEntity expectedDriver = new DriverEntity(name, age);
         AddDriverDto inputDriver = new AddDriverDto(name, age);
-        BDDMockito.given(driverRepository.existsByName(name)).willReturn(false);
+        BDDMockito.given(driverRepository.existsByName(name)).willReturn(true);
 
         // when
         BDDAssertions.catchThrowableOfType(RequestConflictException.class, () -> driverService.add(inputDriver));
 
         // then
         BDDMockito.then(driverRepository).should().existsByName(name);
-        BDDMockito.then(driverRepository).should().save(expectedDriver);
+        BDDMockito.then(driverRepository).shouldHaveNoMoreInteractions();
     }
 
     @Test
