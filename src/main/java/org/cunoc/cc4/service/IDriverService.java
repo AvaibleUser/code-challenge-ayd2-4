@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.cunoc.cc4.dto.AddDriverDto;
 import org.cunoc.cc4.dto.DriverDto;
+import org.cunoc.cc4.dto.PutDriverDto;
 
 public interface IDriverService {
 
@@ -13,4 +14,8 @@ public interface IDriverService {
     Optional<DriverDto> findOne(long id);
 
     void add(AddDriverDto newDriver);
+
+    void update(long driverId, PutDriverDto updDriver);
+
+    void delete(long driverId);
 }

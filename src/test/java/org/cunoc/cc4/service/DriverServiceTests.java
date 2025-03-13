@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.assertj.core.api.BDDAssertions;
 import org.cunoc.cc4.dto.AddDriverDto;
 import org.cunoc.cc4.dto.DriverDto;
+import org.cunoc.cc4.dto.PutDriverDto;
 import org.cunoc.cc4.entity.DriverEntity;
 import org.cunoc.cc4.exception.RequestConflictException;
+import org.cunoc.cc4.exception.ValueNotFoundException;
 import org.cunoc.cc4.repository.DriverRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,7 +89,7 @@ public class DriverServiceTests {
     }
 
     @Test
-    void canAdd_WithAlreadyExistentName() {
+    void canAdd_ThrowByAlreadyExistentName() {
         // given
         String name = "Random";
         int age = 50;
@@ -101,5 +103,52 @@ public class DriverServiceTests {
         // then
         BDDMockito.then(driverRepository).should().existsByName(name);
         BDDMockito.then(driverRepository).should().save(expectedDriver);
+    }
+
+    @Test
+    void canUpdate() {
+        // given
+        long id = 50;
+        String name = "Random";
+        int age = 50;
+        int newAge = 500;
+        DriverEntity driver = new DriverEntity(id, name, age);
+        DriverEntity expectedDriver = new DriverEntity(id, name, newAge);
+        PutDriverDto inputDriver = new PutDriverDto(newAge);
+        BDDMockito.given(driverRepository.findById(id)).willReturn(Optional.of(driver));
+
+        // when
+        driverService.update(id, inputDriver);
+
+        // then
+        BDDMockito.then(driverRepository).should().save(expectedDriver);
+    }
+
+    @Test
+    void canUpdate_ThrowByNotFoundId() {
+        // given
+        long id = 50;
+        int newAge = 50;
+        PutDriverDto inputDriver = new PutDriverDto(newAge);
+        BDDMockito.given(driverRepository.findById(id)).willReturn(Optional.empty());
+
+        // when
+        BDDAssertions.catchThrowableOfType(ValueNotFoundException.class, () -> driverService.update(id, inputDriver));
+
+        // then
+        BDDMockito.then(driverRepository).should().findById(id);
+        BDDMockito.then(driverRepository).shouldHaveNoMoreInteractions();
+    }
+
+    @Test
+    void canDelete() {
+        // given
+        long id = 50;
+
+        // when
+        driverService.delete(id);
+
+        // then
+        BDDMockito.then(driverRepository).should().deleteById(id);
     }
 }
