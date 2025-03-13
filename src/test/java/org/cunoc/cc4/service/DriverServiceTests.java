@@ -1,5 +1,7 @@
 package org.cunoc.cc4.service;
 
+import static org.mockito.ArgumentMatchers.refEq;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -85,7 +87,7 @@ public class DriverServiceTests {
 
         // then
         BDDMockito.then(driverRepository).should().existsByName(name);
-        BDDMockito.then(driverRepository).should().save(expectedDriver);
+        BDDMockito.then(driverRepository).should().save(refEq(expectedDriver));
     }
 
     @Test
@@ -120,7 +122,7 @@ public class DriverServiceTests {
         driverService.update(id, inputDriver);
 
         // then
-        BDDMockito.then(driverRepository).should().save(expectedDriver);
+        BDDMockito.then(driverRepository).should().save(refEq(expectedDriver));
     }
 
     @Test
